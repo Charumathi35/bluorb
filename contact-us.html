@@ -958,8 +958,73 @@
 												touch with you to
 												assist with your luxury travel needs.</p>
 
-											<!-- </?php echo do_shortcode('[gravityform id="2" title="false" description="false" ajax="true"]'); ?> -->
-											[gravityform id="2" title="false" description="false" ajax="true"]
+											<style>
+												.contact-form .form-control {
+													background-color: #ffffff !important;
+													color: #333333 !important;
+													border: 1px solid #ced4da !important;
+												}
+
+												.contact-form .form-control::placeholder {
+													color: #6c757d !important;
+													opacity: 1 !important;
+												}
+
+												.contact-form .form-control:-ms-input-placeholder {
+													color: #6c757d !important;
+												}
+
+												.contact-form .form-control::-ms-input-placeholder {
+													color: #6c757d !important;
+												}
+											</style>
+											<form id="contactForm" class="contact-form">
+												<div class="form-group mb-3">
+													<input type="text" class="form-control" id="name" name="name" placeholder="Name *" required>
+												</div>
+												<div class="form-group mb-3">
+													<input type="email" class="form-control" id="email" name="email" placeholder="Email ID *" required>
+												</div>
+												<div class="form-group mb-3">
+													<input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone *" required>
+												</div>
+												<div class="form-group mb-3">
+													<textarea class="form-control" id="message" name="message" rows="4" placeholder="Message *" required></textarea>
+												</div>
+												<div id="form-status" style="display:none; margin-bottom:12px; padding:10px 14px; border-radius:6px; font-size:14px;"></div>
+												<button type="submit" id="submitBtn" class="btn btn-primary submit-btn">Submit</button>
+											</form>
+											<script>
+												document.getElementById('contactForm').addEventListener('submit', function (e) {
+													e.preventDefault();
+													var btn = document.getElementById('submitBtn');
+													btn.disabled = true;
+													btn.textContent = 'Sending…';
+													var data = new FormData(this);
+													fetch('send_mail.php', { method: 'POST', body: data })
+														.then(function (r) { return r.json(); })
+														.then(function (res) {
+															var el = document.getElementById('form-status');
+															el.style.display = 'block';
+															if (res.success) {
+																el.textContent = '✅ Thank you! Your message has been sent.';
+																el.style.background = '#d4edda'; el.style.color = '#155724'; el.style.border = '1px solid #c3e6cb';
+																document.getElementById('contactForm').reset();
+															} else {
+																el.textContent = '❌ ' + res.message;
+																el.style.background = '#f8d7da'; el.style.color = '#721c24'; el.style.border = '1px solid #f5c6cb';
+															}
+															btn.disabled = false; btn.textContent = 'Submit';
+														})
+														.catch(function () {
+															var el = document.getElementById('form-status');
+															el.style.display = 'block';
+															el.textContent = '❌ Server error. Please email info@bluorb.in directly.';
+															el.style.background = '#f8d7da'; el.style.color = '#721c24'; el.style.border = '1px solid #f5c6cb';
+															btn.disabled = false; btn.textContent = 'Submit';
+														});
+												});
+											</script>
 											<p class="impt">*Your privacy is important to us. Any information you
 												provide will
 												be kept strictly
