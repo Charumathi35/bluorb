@@ -1,4 +1,9 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require __DIR__ . '/vendor/autoload.php';
+
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -23,14 +28,40 @@ $body = "Name    : $name\n"
       . "Phone   : $phone\n"
       . "Message : $message";
 
-$headers = "From: noreply@bluorb.in\r\n";
+$mail = new PHPMailer(true);
 
-$sent1 = mail('info@bluorb.in',       $subject, $body, $headers);
-$sent2 = mail('enquiries@bluorb.in',  $subject, $body, $headers);
+try {
+    // Uncomment and configure these if you want to use SMTP
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.office365.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'info@bluorb.in';
+    $mail->Password   = '#Helpline@098';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port       = 587;
+    $mail->Timeout    = 10;
 
-if ($sent1 && $sent2) {
+    // Use the requested SMTP configuration
+    // $mail->isSMTP();
+    // $mail->Host       = '10.90.10.103';
+    // $mail->SMTPAuth   = false;
+    // $mail->SMTPAutoTLS = false; 
+    // $mail->Port       = 25;
+    // $mail->Timeout    = 10;
+
+    // Use the specified sender address
+    $mail->setFrom('info@bluorb.in');
+    $mail->addAddress('charumathi.saravanakumar@pricol.com');
+    // $mail->addReplyTo($email, $name);
+
+    $mail->isHTML(false);
+    $mail->Subject = $subject;
+    $mail->Body    = $body;
+
+    $mail->send();
     echo json_encode(['success' => true,  'message' => 'Your message has been sent successfully!']);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Failed to send. Please try again.']);
+} catch (Exception $e) {
+    // Show detailed error message to help debug SMTP issues
+    echo json_encode(['success' => false, 'message' => 'Failed to send. Error: ' . $mail->ErrorInfo]);
 }
 ?>
