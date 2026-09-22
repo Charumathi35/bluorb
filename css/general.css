@@ -1796,7 +1796,7 @@ aside.col-xl-3.col-lg-3.col-md-3.uni-half {
   border-bottom-right-radius: 40px;
   display: block;
   height: 250px;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
 }
 
@@ -1933,6 +1933,35 @@ input[type="checkbox"]:checked+label:hover::after {
 
 #mobile-menu-wrapper input[type="checkbox"]:checked~.nav-links li:nth-child(5) {
   transition-delay: 0.4s;
+}
+
+#mobile-menu-wrapper .social1 {
+  position: absolute;
+  top: 220px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 999999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: all 0.3s;
+  padding-right: 0 !important;
+}
+
+#mobile-menu-wrapper input[type="checkbox"]:checked ~ .social1,
+#mobile-menu-wrapper input[type="checkbox"]:checked ~ p.mail-call.social1 {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+#mobile-menu-wrapper .social1 a {
+  margin: 0 8px;
+  display: inline-block;
+  color: #fff;
+  font-size: 16px;
 }
 
 #mobile-menu-wrapper label {
@@ -2091,6 +2120,41 @@ div#contactmodal .modal-content {
 nav#mob-nav.open-mob .mob-home-bnt {
   opacity: 1;
   pointer-events: all;
+}
+
+.mob-back-bnt {
+  position: fixed !important;
+  bottom: 25px !important;
+  left: 20px !important;
+  z-index: 999999 !important;
+}
+
+.mob-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #dfdfdf !important;
+  border: 1px solid #00aae9;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 8px rgba(0, 170, 233, 0.2);
+  transition: all 0.35s ease-in-out;
+}
+
+.mob-back-btn:hover {
+  color: #00aae9 !important;
+  border-color: #00aae9;
+  background: #000;
+  box-shadow: 0 0 15px rgba(0, 170, 233, 0.7);
+  transform: translateY(-2px);
 }
 
 .menu-wrapper-inner {
